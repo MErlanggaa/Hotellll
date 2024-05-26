@@ -3,30 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class LoginAdminController extends Controller
+class LoginUserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest:admin', ['except' => 'logout']);
+        $this->middleware('guest')->except('logout');
     }
 
     public function formLogin()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username' => 'required|exists:admins',
+            'username' => 'required|exists:users',
             'password' => 'required'
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
+        if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return redirect()->intended(config('admin.path'));
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
@@ -36,7 +35,8 @@ class LoginAdminController extends Controller
 
     public function logout()
     {
-        Auth::guard('admin')->logout();
-        return redirect()->route('admin.login');
+        Auth::logout();
+        return redirect()->route('/login');
     }
+
 }

@@ -9,14 +9,14 @@
     <div class="sidebar">
 
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                 <x-nav-item label="Dashboard" icon="fas fa-tachometer-alt" :link="route('dashboard')"></x-nav-item>
+                <x-nav-item label="Pemesanan" icon="fas fa-receipt" :link="route('pemesanan.index')" />
+
                 @can('role', 'admin')
-                    <x-nav-item label="Kamar" icon="fas fa-bed" :link="route('kamar.index')" />
-                    <x-nav-item label="Pemesanan" icon="fas fa-receipt" :link="route('pemesanan.index')" />
-                    <x-nav-item label="User Admin" icon="fas fa-users" :link="route('admin.index')" />
+                <x-nav-item label="Kamar" icon="fas fa-bed" :link="route('kamar.index')" />
+                <x-nav-item label="User Admin" icon="fas fa-users" :link="route('admin.index')" />
                 @endcan
             </ul>
         </nav>

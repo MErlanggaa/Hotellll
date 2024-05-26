@@ -12,6 +12,10 @@ class Pesan extends Model
     public $fillable = [
         'checkin',
         'checkout',
-        'jenis'
+        'jenis',
+        'nama',
+        'jumlah_kamar',
+        'email',
+        'no'
     ];
 }

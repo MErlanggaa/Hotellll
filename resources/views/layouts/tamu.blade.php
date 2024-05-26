@@ -32,7 +32,8 @@
 
         <footer class="footer">
             <div class="container-fluid">
-                <span class="text-muted"><strong>Copyright &copy; 2024 Farhan Ibra</strong> All rights reserved.</span>
+                <span class="text-muted"><strong>Copyright &copy; 2024 Muhammad Erlangga Putra W</strong> All rights
+                    reserved.</span>
             </div>
         </footer>
 

@@ -15,78 +15,78 @@
 
     <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css?v=3.2.0">
     <script nonce="bdc32cbf-6a56-4e52-8c28-f55231a04054">
-        try {
-            (function(w, d) {
-                ! function(o, p, q, r) {
-                    o[q] = o[q] || {};
-                    o[q].executed = [];
-                    o.zaraz = {
-                        deferred: [],
-                        listeners: []
-                    };
-                    o.zaraz.q = [];
-                    o.zaraz._f = function(s) {
-                        return async function() {
-                            var t = Array.prototype.slice.call(arguments);
-                            o.zaraz.q.push({
-                                m: s,
-                                a: t
-                            })
+    try {
+        (function(w, d) {
+            ! function(o, p, q, r) {
+                o[q] = o[q] || {};
+                o[q].executed = [];
+                o.zaraz = {
+                    deferred: [],
+                    listeners: []
+                };
+                o.zaraz.q = [];
+                o.zaraz._f = function(s) {
+                    return async function() {
+                        var t = Array.prototype.slice.call(arguments);
+                        o.zaraz.q.push({
+                            m: s,
+                            a: t
+                        })
+                    }
+                };
+                for (const u of ["track", "set", "debug"]) o.zaraz[u] = o.zaraz._f(u);
+                o.zaraz.init = () => {
+                    var v = p.getElementsByTagName(r)[0],
+                        w = p.createElement(r),
+                        x = p.getElementsByTagName("title")[0];
+                    x && (o[q].t = p.getElementsByTagName("title")[0].text);
+                    o[q].x = Math.random();
+                    o[q].w = o.screen.width;
+                    o[q].h = o.screen.height;
+                    o[q].j = o.innerHeight;
+                    o[q].e = o.innerWidth;
+                    o[q].l = o.location.href;
+                    o[q].r = p.referrer;
+                    o[q].k = o.screen.colorDepth;
+                    o[q].n = p.characterSet;
+                    o[q].o = (new Date).getTimezoneOffset();
+                    if (o.dataLayer)
+                        for (const B of Object.entries(Object.entries(dataLayer).reduce(((C, D) => ({
+                                ...C[1],
+                                ...D[1]
+                            })), {}))) zaraz.set(B[0], B[1], {
+                            scope: "page"
+                        });
+                    o[q].q = [];
+                    for (; o.zaraz.q.length;) {
+                        const E = o.zaraz.q.shift();
+                        o[q].q.push(E)
+                    }
+                    w.defer = !0;
+                    for (const F of [localStorage, sessionStorage]) Object.keys(F || {}).filter((H => H
+                        .startsWith("_zaraz_"))).forEach((G => {
+                        try {
+                            o[q]["z_" + G.slice(7)] = JSON.parse(F.getItem(G))
+                        } catch {
+                            o[q]["z_" + G.slice(7)] = F.getItem(G)
                         }
-                    };
-                    for (const u of ["track", "set", "debug"]) o.zaraz[u] = o.zaraz._f(u);
-                    o.zaraz.init = () => {
-                        var v = p.getElementsByTagName(r)[0],
-                            w = p.createElement(r),
-                            x = p.getElementsByTagName("title")[0];
-                        x && (o[q].t = p.getElementsByTagName("title")[0].text);
-                        o[q].x = Math.random();
-                        o[q].w = o.screen.width;
-                        o[q].h = o.screen.height;
-                        o[q].j = o.innerHeight;
-                        o[q].e = o.innerWidth;
-                        o[q].l = o.location.href;
-                        o[q].r = p.referrer;
-                        o[q].k = o.screen.colorDepth;
-                        o[q].n = p.characterSet;
-                        o[q].o = (new Date).getTimezoneOffset();
-                        if (o.dataLayer)
-                            for (const B of Object.entries(Object.entries(dataLayer).reduce(((C, D) => ({
-                                    ...C[1],
-                                    ...D[1]
-                                })), {}))) zaraz.set(B[0], B[1], {
-                                scope: "page"
-                            });
-                        o[q].q = [];
-                        for (; o.zaraz.q.length;) {
-                            const E = o.zaraz.q.shift();
-                            o[q].q.push(E)
-                        }
-                        w.defer = !0;
-                        for (const F of [localStorage, sessionStorage]) Object.keys(F || {}).filter((H => H
-                            .startsWith("_zaraz_"))).forEach((G => {
-                            try {
-                                o[q]["z_" + G.slice(7)] = JSON.parse(F.getItem(G))
-                            } catch {
-                                o[q]["z_" + G.slice(7)] = F.getItem(G)
-                            }
-                        }));
-                        w.referrerPolicy = "origin";
-                        w.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(o[q])));
-                        v.parentNode.insertBefore(w, v)
-                    };
-                    ["complete", "interactive"].includes(p.readyState) ? zaraz.init() : o.addEventListener(
-                        "DOMContentLoaded", zaraz.init)
-                }(w, d, "zarazData", "script");
-            })(window, document)
-        } catch (err) {
-            console.error('Failed to run Cloudflare Zaraz: ', err)
-            fetch('/cdn-cgi/zaraz/t', {
-                credentials: 'include',
-                keepalive: true,
-                method: 'GET',
-            })
-        };
+                    }));
+                    w.referrerPolicy = "origin";
+                    w.src = "/cdn-cgi/zaraz/s.js?z=" + btoa(encodeURIComponent(JSON.stringify(o[q])));
+                    v.parentNode.insertBefore(w, v)
+                };
+                ["complete", "interactive"].includes(p.readyState) ? zaraz.init() : o.addEventListener(
+                    "DOMContentLoaded", zaraz.init)
+            }(w, d, "zarazData", "script");
+        })(window, document)
+    } catch (err) {
+        console.error('Failed to run Cloudflare Zaraz: ', err)
+        fetch('/cdn-cgi/zaraz/t', {
+            credentials: 'include',
+            keepalive: true,
+            method: 'GET',
+        })
+    };
     </script>
 </head>
 
@@ -127,10 +127,10 @@
         <footer class="main-footer">
 
             <div class="float-right d-none d-sm-inline">
-                Farhan Ibra A.
+                Muhammad Erlangga Putra W
             </div>
 
-            <strong>Copyright &copy; 2024 Farhan Ibra</strong> All rights
+            <strong>Copyright &copy; 2024 Muhammad Erlangga Putra W</strong> All rights
             reserved.
         </footer>
     </div>

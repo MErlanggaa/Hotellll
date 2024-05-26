@@ -20,7 +20,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/') }}"><b>Hotel</b> Hotelan</a>
+            <a href="{{ url('/') }}"><b>Hotel</b> Sigma Skidibi</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         @error('username')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="input-group mb-3">
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="row">

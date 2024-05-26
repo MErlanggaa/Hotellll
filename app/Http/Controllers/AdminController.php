@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Pesan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,11 +101,21 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('status', 'destroy');
     }
 
+   /* public function akun()
+    {
+        if (Auth::guard('admin')->check()) {
+            $admin = Auth::guard('admin')->user();
+            return view('admin.akun', ['row' => $admin]);
+        } else if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+            return view('akun', ['row' => $user]);
+        }*/
     public function akun()
     {
         $admin = Auth::user();
         return view('admin.akun', ['row' => $admin]);
     }
+    
 
     public function updateAkun(Request $request)
     {
@@ -133,5 +144,29 @@ class AdminController extends Controller
         $akun->update($arr);
 
         return back()->with('status', 'update');
+    }
+
+    public function dashboard(){
+
+        // $pesan = Pesan::all();
+        $checkout = [];
+        $checkin = [];
+        $bulan = [];
+        // foreach($pesan as $p){
+            // dd($p);
+            for($i = 1; $i <= 12; $i++){
+                $out = Pesan::whereMonth('checkout',$i)->count();
+                $in = Pesan::whereMonth('checkin',$i)->count();
+                $bulan[] = date("F", mktime(0, 0, 0, $i, 10)); 
+                $checkout[] = $out;
+                $checkin[] = $in;
+            }
+        // }
+
+        return view('dashboard', [
+            'bulan' => json_encode($bulan),
+            'checkout' => json_encode($checkout), 
+            'checkin' => json_encode($checkin), 
+        ]);
     }
 }

@@ -1,0 +1,50 @@
+Route::get('/', function () {
+return view('welcome');
+})->name('home');
+
+Route::get('kamar', [TamuController::class, 'kamar'])->name('kamar');
+Route::post('kamar', [TamuController::class, 'insert'])->name('tamu.insert');
+
+Route::middleware('guest')->group(function () {
+Route::get('/', function () {
+return redirect()->route('login');
+});
+
+Route::get('login', [LoginUserController::class, 'formLogin'])->name('login');
+Route::post('login', [LoginUserController::class, 'login']);
+Route::middleware('auth')->group(function () {
+Route::get('/akun', [AdminController::class, 'akun'])->name('user.akun');
+Route::post('logout', [LoginAdminController::class, 'logout'])->name('user.logout');
+
+});
+});
+
+Route::controller(GoogleController::class)->group(function(){
+Route::get('auth/google', 'redirectGoogle')->name('auth.google');
+Route::get('auth/google/callback', 'handleGoogleCallback');
+});
+
+
+
+
+//admin dan resepsionis//
+Route::group([
+'prefix' => config('admin.path'),
+], function () {
+Route::get('admin/login', [LoginAdminController::class, 'formLogin'])->name('admin.login');
+Route::post('admin/login', [LoginAdminController::class, 'login']);
+
+Route::group(['middleware' => 'auth:admin'], function () {
+Route::post('logout', [LoginAdminController::class, 'logout'])->name('admin.logout');
+
+Route::view('/', 'dashboard')->name('dashboard');
+Route::get('/akun', [AdminController::class, 'akun'])->name('admin.akun');
+Route::put('/akun', [AdminController::class, 'updateAkun']);
+
+Route::group(['middleware' => ['can:role,"admin"']], function () {
+Route::resource('admin', AdminController::class);
+Route::resource('kamaar', KamarController::class);
+Route::resource('pemesanan', TamuController::class);
+});
+});
+});
