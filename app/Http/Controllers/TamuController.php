@@ -6,6 +6,7 @@ use App\Models\Kamar;
 use App\Models\Pesan;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TamuController extends Controller
 {
@@ -13,7 +14,19 @@ class TamuController extends Controller
     public function kamar()
     {
         $kamar = Kamar::all();
-        return view('kamar', ['kamar' => $kamar]);
+        $modal = false;
+        $data = [];
+
+        if(Pesan::where('userID', Auth::user()->id)->count() > 0){
+            $modal = true;
+            $data = Pesan::where('userID', Auth::user()->id)->first();
+        }
+        
+        return view('kamar', [
+            'kamar' => $kamar,
+            'modal' => $modal,
+            'data' => $data
+        ]);
     }
 
   public function insert(Request $request)
@@ -38,9 +51,11 @@ class TamuController extends Controller
         'checkin' => $request->in,
         'checkout' => $request->out,
         'jenis' => $request->input('pilihan'),
-        'junlah_kamar' => $jumlah_kamar_diminta,
+        'jumlah_kamar' => $jumlah_kamar_diminta,
         'nama' => $request->input('nama'),
-        'email' => $request->input('email')
+        'email' => $request->input('email'),
+        'userID' => Auth::user()->id,
+        'no' => $request->no
     ]);
 
     // Redirect ke halaman kamar setelah penyimpanan berhasil

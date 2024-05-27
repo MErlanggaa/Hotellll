@@ -71,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="bookingModalLabel">Form Pemesanan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
             </div>
             <div class="modal-body">
                 <form method="post" action="{{ route('tamu.insert') }}">
@@ -86,7 +86,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="roomType" class="form-label">Jenis Kamar</label>
-                        <select name="pilihan" id="roomType" class="form-select">
+                        <select name="pilihan" id="roomType" class="form-control">
                             <option value=""></option>
                             @foreach ($kamar as $k)
                             @if ($k->jum_kamar > 0)
@@ -118,31 +118,120 @@
 
                     <button type="submit" class="btn btn-primary">Pesan</button>
                 </form>
+                
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+@if($modal)
+<!-- Modal Baru -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Informasi Pemesanan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
+            </div>
+            <div class="modal-body" id="printableArea">
+                <p><strong>Check In:</strong> <span id="infoCheckin">{{$data->checkin}}</span></p>
+                <p><strong>Check Out:</strong> <span id="infoCheckout">{{$data->checkout}}</span></p>
+                <p><strong>Jenis Kamar:</strong> <span id="infoRoomType">{{$data->jenis}}</span></p>
+                <p><strong>Nama:</strong> <span id="infoNama">{{$data->nama}}</span></p>
+                <p><strong>No. Telepon:</strong> <span id="infoNo">{{$data->no}}</span></p>
+                <p><strong>Email:</strong> <span id="infoEmail">{{$data->email}}</span></p>
+                <p><strong>Jumlah Kamar:</strong> <span id="infoJumlahKamar">{{$data->jumlah_kamar}}</span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" onclick="printModal()">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+@endsection
+   <!-- Include the SweetAlert2 stylesheet -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+   <!-- Include the SweetAlert2 JavaScript -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-@endsection
+
+@if($modal)
+<script type="text/javascript">
+     window.onload = function() {
+         OpenBootstrapPopup();
+        };
+        function OpenBootstrapPopup() {
+            $("#infoModal").modal('show');
+            }
+</script>
+@endif
+
 <script>
-    
-   
+// document.addEventListener('DOMContentLoaded', function() {
+//     var form = document.querySelector('form');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Menangani alert setelah formulir dikirim
-    var form = document.querySelector('form');
-    
-    form.addEventListener('submit', function(event) {
-        // Mencegah formulir untuk dikirim secara langsung
-        event.preventDefault();
+//     document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
+//         event.preventDefault();
+        
+//         let checkin = document.getElementById('checkin').value;
+//         let checkout = document.getElementById('checkout').value;
+//         let roomType = document.getElementById('roomType').value;
+//         let nama = document.getElementById('nama').value;
+//         let no = document.getElementById('No').value;
+//         let email = document.getElementById('email').value;
+//         let jumlah_kamar = document.getElementById('jumlah_kamar').value;
 
-        console.log('Form submitted!'); // Check if form submission event is triggered
+//         console.log('Data yang akan dikirim:', {checkin, checkout, roomType, nama, no, email, jumlah_kamar});
 
-        // Menampilkan SweetAlert
+//         let data = {
+//             checkin: checkin,
+//             checkout: checkout,
+//             roomType: roomType,
+//             nama: nama,
+//             no: no,
+//             email: email,
+//             jumlah_kamar: jumlah_kamar,
+//             _token: '{{ csrf_token() }}'
+//         };
+        
+//         fetch('{{ route("pesan.info") }}', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(data)
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             console.log('Data diterima dari server:', data);
+//             document.getElementById('infoCheckin').innerText = data.checkin;
+//             document.getElementById('infoCheckout').innerText = data.checkout;
+//             document.getElementById('infoRoomType').innerText = data.roomType;
+//             document.getElementById('infoNama').innerText = data.nama;
+//             document.getElementById('infoNo').innerText = data.no;
+//             document.getElementById('infoEmail').innerText = data.email;
+//             document.getElementById('infoJumlahKamar').innerText = data.jumlah_kamar;
+            
+//             new bootstrap.Modal(document.getElementById('infoModal')).show();
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             Swal.fire({
+//                 icon: 'error',
+//                 title: 'Gagal membuat pesanan!',
+//                 text: 'Silakan coba lagi.'
+//             });
+//         });
+
         Swal.fire({
             icon: 'success',
             title: 'Pesanan berhasil dibuat!',
@@ -150,10 +239,25 @@ document.addEventListener('DOMContentLoaded', function() {
             timer: 1500
         });
 
-        console.log('SweetAlert displayed!'); // Check if SweetAlert is displayed
-
-        // Mengosongkan nilai formulir (opsional)
         form.reset();
-    });
-});
+//     });
+// });
 </script>
+<script>
+function printModal() {
+    var logo = '<img src="../img/public/logo.png" style="width:100px; display: block; margin: 0 auto;">'; // Sesuaikan path dan ukuran logo
+    var namaHotel = '<h1 style="text-align: center; margin-top: 20px;">Hotel Skibidi</h1>'; // Ganti "Nama Hotel" dengan nama hotel yang sesuai
+
+    var printContents = document.getElementById('printableArea').innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    // Menambahkan logo dan nama hotel ke konten yang akan dicetak
+    document.body.innerHTML = '<div style="text-align: center;">' + logo + namaHotel + '</div>' + printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+
+    // Setelah cetak, kembalikan tampilan halaman seperti semula
+    window.location.reload();
+}
+</script>
+ 

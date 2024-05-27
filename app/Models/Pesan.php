@@ -16,6 +16,7 @@ class Pesan extends Model
         'nama',
         'jumlah_kamar',
         'email',
-        'no'
+        'no',
+        'userID'
     ];
 }

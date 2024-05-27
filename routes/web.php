@@ -21,16 +21,19 @@ Route::get('/fetch-data', [DataController::class, 'fetchData']);
 
 //User//
 
-
+Route::post('/pesan/info', [PesanController::class, 'getInfo'])->name('pesan.info');
 Route::get('kamar', [TamuController::class, 'kamar'])->name('kamar');
 Route::post('kamar', [TamuController::class, 'insert'])->name('tamu.insert');
+
+Route::get('home', function(){
+    return view('welcome');
+})->name('home');
 
 Route::middleware('guest')->group(function ()  {
     Route::get('/', function () {
         return redirect()->route('login');
     });
 
-    Route::get('home', ['welcome'])->name('home');
     Route::get('login', [LoginUserController::class, 'formLogin'])->name('login');
     Route::post('login', [LoginUserController::class, 'login']);
     Route::middleware('auth')->group(function () {
